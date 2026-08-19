@@ -90,7 +90,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
     buildChart("skillsChart");
     buildChart("skillsChart-2");
+    renderSkillsGrid();
 });
+
+function renderSkillsGrid() {
+    const grid = document.getElementById("skills-grid");
+    if (!grid) return;
+
+    const secoes = [
+        {
+            titulo: "Languages",
+            subtitulo: "Programming with purpose",
+            tecnologias: [["Python", "python/python-original.svg"], ["Java", "java/java-original.svg"], ["JavaScript", "javascript/javascript-original.svg"], ["TypeScript", "typescript/typescript-original.svg"]]
+        },
+        {
+            titulo: "Front-end",
+            subtitulo: "Building intuitive user interfaces",
+            tecnologias: [["React", "react/react-original.svg"], ["Tailwind CSS", "tailwindcss/tailwindcss-original.svg"]]
+        },
+        {
+            titulo: "Back-end",
+            subtitulo: "Building scalable, high-performance services",
+            tecnologias: [["FastAPI", "fastapi/fastapi-original.svg"], ["Django", "django/django-plain.svg"], ["Node.js", "nodejs/nodejs-original.svg"]]
+        },
+        {
+            titulo: "Data & Analytics",
+            subtitulo: "Turning data into insights",
+            tecnologias: [["Pandas", "pandas/pandas-original.svg"], ["Plotly", "plotly/plotly-original.svg"]]
+        },
+        {
+            titulo: "Databases",
+            subtitulo: "Structuring reliable data",
+            tecnologias: [["MongoDB", "mongodb/mongodb-original.svg"], ["SQLite", "sqlite/sqlite-original.svg"]]
+        },
+        {
+            titulo: "Tools",
+            subtitulo: "Building, shipping & maintaining",
+            tecnologias: [["Git", "git/git-original.svg"], ["Docker", "docker/docker-original.svg"]]
+        }
+    ];
+
+    grid.innerHTML = secoes.map(({ titulo, subtitulo, tecnologias }) => `
+        <section class="tech-section">
+            <div class="tech-section-header">
+                <h2 class="tech-section-title">${titulo}</h2>
+                <p class="tech-section-subtitle">${subtitulo}</p>
+            </div>
+            <div class="tech-section-cards">
+                ${tecnologias.map(([nome, icone]) => `
+                    <div class="tech-card" tabindex="0">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/${icone}" alt="" aria-hidden="true">
+                        <span>${nome}</span>
+                    </div>`).join("")}
+            </div>
+        </section>`).join("");
+}
 
 
 /* ===================================================

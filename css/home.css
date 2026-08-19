@@ -401,12 +401,106 @@ section.topo .flex {
 ===================================================== */
 
 section.habilidades {
-    padding: 150px 5%;
+    padding: 130px 5%;
 }
 
 .habilidades h1 {
     text-align: center;
     font-weight: bold;
+    margin-bottom: 55px;
+}
+
+/* Nova apresentação das tecnologias */
+.habilidades > .interface > :not(h1, .skills-grid) {
+    display: none;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 38px 28px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.tech-section {
+    min-width: 0;
+}
+
+.tech-section-header {
+    margin-bottom: 14px;
+}
+
+.tech-section-title {
+    margin: 0 0 4px;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.tech-section-subtitle {
+    margin: 0;
+    font-size: .85rem;
+    color: rgba(255, 255, 255, .55);
+}
+
+.tech-section-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(82px, 1fr));
+    gap: 10px;
+}
+
+.tech-card {
+    min-height: 96px;
+    padding: 13px 8px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .035);
+    color: rgba(255, 255, 255, .72);
+    text-align: center;
+    transition: transform .25s ease, background-color .25s ease, border-color .25s ease, box-shadow .25s ease, color .25s ease;
+}
+
+.tech-card img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    filter: grayscale(1) brightness(1.75);
+    opacity: .82;
+    transition: filter .25s ease, opacity .25s ease, transform .25s ease;
+}
+
+.tech-card span {
+    font-size: .76rem;
+    font-weight: 600;
+}
+
+.tech-card:hover,
+.tech-card:focus-visible {
+    transform: translateY(-6px);
+    color: #fff;
+    border-color: rgba(255, 255, 255, .38);
+    background: rgba(255, 255, 255, .09);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .25);
+    outline: none;
+}
+
+.tech-card:hover img,
+.tech-card:focus-visible img {
+    filter: none;
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+@media (max-width: 600px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
 }
 
 /* Layout principal */
