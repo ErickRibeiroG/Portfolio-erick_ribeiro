@@ -97,35 +97,38 @@ function renderSkillsGrid() {
     const grid = document.getElementById("skills-grid");
     if (!grid) return;
 
+    const textos = translations[idiomaAtual]?.static.hab.grid;
+    if (!textos) return;
+
     const secoes = [
         {
-            titulo: "Languages",
-            subtitulo: "Programming with purpose",
+            titulo: textos.linguagens.titulo,
+            subtitulo: textos.linguagens.subtitulo,
             tecnologias: [["Python", "python/python-original.svg"], ["Java", "java/java-original.svg"], ["JavaScript", "javascript/javascript-original.svg"], ["TypeScript", "typescript/typescript-original.svg"]]
         },
         {
-            titulo: "Front-end",
-            subtitulo: "Building intuitive user interfaces",
+            titulo: textos.frontend.titulo,
+            subtitulo: textos.frontend.subtitulo,
             tecnologias: [["React", "react/react-original.svg"], ["Tailwind CSS", "tailwindcss/tailwindcss-original.svg"]]
         },
         {
-            titulo: "Back-end",
-            subtitulo: "Building scalable, high-performance services",
+            titulo: textos.backend.titulo,
+            subtitulo: textos.backend.subtitulo,
             tecnologias: [["FastAPI", "fastapi/fastapi-original.svg"], ["Django", "django/django-plain.svg"], ["Node.js", "nodejs/nodejs-original.svg"]]
         },
         {
-            titulo: "Data & Analytics",
-            subtitulo: "Turning data into insights",
+            titulo: textos.dados.titulo,
+            subtitulo: textos.dados.subtitulo,
             tecnologias: [["Pandas", "pandas/pandas-original.svg"], ["Plotly", "plotly/plotly-original.svg"]]
         },
         {
-            titulo: "Databases",
-            subtitulo: "Structuring reliable data",
+            titulo: textos.bancos.titulo,
+            subtitulo: textos.bancos.subtitulo,
             tecnologias: [["MongoDB", "mongodb/mongodb-original.svg"], ["SQLite", "sqlite/sqlite-original.svg"]]
         },
         {
-            titulo: "Tools",
-            subtitulo: "Building, shipping & maintaining",
+            titulo: textos.ferramentas.titulo,
+            subtitulo: textos.ferramentas.subtitulo,
             tecnologias: [["Git", "git/git-original.svg"], ["Docker", "docker/docker-original.svg"]]
         }
     ];
@@ -323,7 +326,17 @@ const translations = {
                 btnCv: "Baixar CV",
                 btnCtt: "Entre em contato"
             },
-            hab: { h1Hab: "Minhas Habilidades", titulo1: "Linguagens e frameworks", titulo2: "Bancos de dados", titulo3: "Ferramentas e softwares", criadoCom: "Este portfolio foi criado usando" },
+            hab: {
+                h1Hab: "Minhas Habilidades", titulo1: "Linguagens e frameworks", titulo2: "Bancos de dados", titulo3: "Ferramentas e softwares", criadoCom: "Este portfolio foi criado usando",
+                grid: {
+                    linguagens: { titulo: "Linguagens", subtitulo: "Programação com propósito" },
+                    frontend: { titulo: "Front-end", subtitulo: "Construindo interfaces intuitivas" },
+                    backend: { titulo: "Back-end", subtitulo: "Construindo serviços escaláveis e de alto desempenho" },
+                    dados: { titulo: "Dados e análise", subtitulo: "Transformando dados em insights" },
+                    bancos: { titulo: "Bancos de dados", subtitulo: "Estruturando dados confiáveis" },
+                    ferramentas: { titulo: "Ferramentas", subtitulo: "Construindo, entregando e mantendo" }
+                }
+            },
             sobre: {
                 titulo: "Sobre mim",
                 idiomas: "Idiomas", pt: "Português", in: "Inglês", nativo: "Nativo", pro: "Proficiente",
@@ -354,7 +367,17 @@ const translations = {
                 btnCv: "Download CV",
                 btnCtt: "Get in touch"
             },
-            hab: { h1Hab: "My Skills", titulo1: "Languages & frameworks", titulo2: "Databases", titulo3: "Tools & software", criadoCom: "This portfolio was built using" },
+            hab: {
+                h1Hab: "My Skills", titulo1: "Languages & frameworks", titulo2: "Databases", titulo3: "Tools & software", criadoCom: "This portfolio was built using",
+                grid: {
+                    linguagens: { titulo: "Languages", subtitulo: "Programming with purpose" },
+                    frontend: { titulo: "Front-end", subtitulo: "Building intuitive user interfaces" },
+                    backend: { titulo: "Back-end", subtitulo: "Building scalable, high-performance services" },
+                    dados: { titulo: "Data & analytics", subtitulo: "Turning data into insights" },
+                    bancos: { titulo: "Databases", subtitulo: "Structuring reliable data" },
+                    ferramentas: { titulo: "Tools", subtitulo: "Building, shipping and maintaining" }
+                }
+            },
             sobre: {
                 titulo: "About me",
                 idiomas: "Languages", pt: "Portuguese", in: "English", nativo: "Native", pro: "Proficient",
@@ -403,6 +426,8 @@ function setLanguage(lang) {
     textIndex   = 0;
     charIndex   = 0;
     isDeleting  = false;
+
+    renderSkillsGrid();
 
     ["btn-lang", "btn-lang-mobile"].forEach(id => {
         const btn = document.getElementById(id);
