@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Outfit", sans-serif;
+
+  /* verde-água usado no site inteiro (dois tons herdados do CSS original) */
+  --color-brand: #3ca6a6;
+  --color-brand-alt: #3ba5a5;
+
+  --animate-blink: blink 1.2s infinite;
+  --animate-fill-bar: fill-bar 2s ease-in-out;
+
+  @keyframes blink {
+    0%,
+    50%,
+    100% {
+      opacity: 1;
+    }
+    25%,
+    75% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fill-bar {
+    from {
+      width: 0%;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* evita scroll horizontal no mobile */
+  html,
+  body {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: black;
+    color: white;
+    font-weight: 200;
+
+    /* compensa o header fixo */
+    padding-top: 100px;
+  }
+
+  /*
+    O preflight do Tailwind aplica max-width:100% em <img>. Como toda imagem
+    do site já tem largura/altura fixas via classe utilitária, esse cap fazia
+    imagens dentro de containers flex encolherem em largura mantendo a altura
+    fixa (esticando/afinando o resultado). Removido para respeitar o tamanho
+    definido em cada componente.
+  */
+  img {
+    max-width: none;
+  }
+}
