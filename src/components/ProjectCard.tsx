@@ -9,7 +9,7 @@ export function ProjectCard({ project }: { project: Project }) {
   const { t } = useLanguage();
 
   return (
-    <div className="group flex h-[450px] w-[420px] flex-col overflow-hidden rounded-[20px] bg-linear-to-b from-white/16 to-white/4 shadow-[0_30px_60px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.4)] backdrop-blur-[18px] transition-transform duration-500 hover:scale-[1.01] max-[520px]:w-[300px]">
+    <div className="group flex h-[450px] w-[420px] flex-col overflow-hidden rounded-[20px] bg-linear-to-b from-surface-1 to-surface-2 shadow-[0_30px_60px_var(--shadow-elevated),inset_0_1px_0_var(--shadow-highlight)] backdrop-blur-[18px] transition-transform duration-500 hover:scale-[1.01] max-[520px]:w-[300px]">
       <div
         className="relative h-[230px] shrink-0 bg-top bg-cover transition-[background-position] duration-[4000ms] ease-in-out group-hover:bg-bottom"
         style={{ backgroundImage: `url("${project.image}")` }}
@@ -50,7 +50,7 @@ export function ProjectCard({ project }: { project: Project }) {
             href={project.repo}
             target="_blank"
             rel="noreferrer"
-            className="flex cursor-pointer items-center gap-[5px] rounded-[15px] bg-white px-[5px] py-[3px] text-[15px] text-black transition-transform duration-500 hover:scale-105"
+            className="flex cursor-pointer items-center gap-[5px] rounded-[15px] bg-invert-bg px-[5px] py-[3px] text-[15px] text-invert-text transition-transform duration-500 hover:scale-105"
           >
             <i className="bi bi-github text-[20px]" />
             <span className="font-medium">{t.proj.code}</span>

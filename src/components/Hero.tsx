@@ -7,7 +7,7 @@ import { Reveal } from "./Reveal";
 const BUTTON_BASE =
   "group m-[5px] inline-flex cursor-pointer items-center gap-[8px] rounded-[10px] px-[18px] py-[10px] text-[18px] font-normal transition-all duration-500 hover:scale-105";
 const BUTTON_PRIMARY = `${BUTTON_BASE} border-0 bg-brand text-black hover:shadow-[0_0_8px_#3CA6A6]`;
-const BUTTON_SECONDARY = `${BUTTON_BASE} border border-brand/50 bg-transparent text-white hover:border-brand hover:bg-brand/10`;
+const BUTTON_SECONDARY = `${BUTTON_BASE} border border-brand/50 bg-transparent text-text hover:border-brand hover:bg-brand/10`;
 
 export function Hero() {
   const { t } = useLanguage();
@@ -65,6 +65,14 @@ export function Hero() {
                 alt=""
                 className="h-[390px] w-[390px] animate-float rounded-[15px] border-r-[3px] border-b-[3px] border-brand object-cover max-[570px]:h-[300px] max-[570px]:w-[300px]"
               />
+
+              <div className="absolute -right-4 -bottom-4 flex items-center gap-[8px] rounded-full border border-border bg-surface-1 px-[16px] py-[8px] text-[13px] font-semibold whitespace-nowrap text-text shadow-[0_10px_25px_var(--shadow-elevated)] backdrop-blur-[18px]">
+                <span className="relative flex h-[8px] w-[8px] shrink-0">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex h-[8px] w-[8px] rounded-full bg-green-500" />
+                </span>
+                {t.topo.status}
+              </div>
             </div>
           </Reveal>
         </div>

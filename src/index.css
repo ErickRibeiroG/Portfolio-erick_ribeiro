@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Outfit", sans-serif;
 
@@ -40,6 +42,87 @@
   }
 }
 
+/*
+  Tokens de tema (claro/escuro). Definidos como custom properties "cruas" em
+  :root/.dark e espelhados via @theme inline para virarem utilitárias Tailwind
+  (bg-surface-1, text-muted, border-border, etc.) que reagem à classe .dark.
+*/
+@theme inline {
+  --color-bg: var(--bg);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-strong-1: var(--surface-strong-1);
+  --color-surface-strong-2: var(--surface-strong-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input-1: var(--input-1);
+  --color-input-2: var(--input-2);
+  --color-menu-1: var(--menu-1);
+  --color-menu-2: var(--menu-2);
+  --color-icon-muted: var(--icon-muted);
+  --color-track: var(--track);
+  --color-invert-bg: var(--invert-bg);
+  --color-invert-text: var(--invert-text);
+  --color-overlay: var(--overlay);
+}
+
+:root {
+  --bg: #f2f7f7;
+  --text: #0f172a;
+  --text-muted: rgba(15, 23, 42, 0.62);
+  --surface-1: rgba(255, 255, 255, 0.95);
+  --surface-2: rgba(255, 255, 255, 0.65);
+  --surface-hover: rgba(15, 23, 42, 0.06);
+  --surface-strong-1: rgba(255, 255, 255, 1);
+  --surface-strong-2: rgba(255, 255, 255, 0.82);
+  --border: rgba(15, 23, 42, 0.14);
+  --border-strong: rgba(15, 23, 42, 0.34);
+  --shadow-elevated: rgba(15, 23, 42, 0.18);
+  --shadow-highlight: rgba(255, 255, 255, 0.9);
+  --input-1: rgba(15, 23, 42, 0.055);
+  --input-2: rgba(15, 23, 42, 0.025);
+  --menu-1: #ffffff;
+  --menu-2: #eef2f2;
+  --icon-muted: rgba(15, 23, 42, 0.55);
+  --icon-dim: 0.55;
+  --track: rgba(15, 23, 42, 0.12);
+  --invert-bg: #0f172a;
+  --invert-text: #ffffff;
+  --overlay: rgba(255, 255, 255, 0.82);
+  --ambient: rgba(60, 166, 166, 0.12);
+  color-scheme: light;
+}
+
+.dark {
+  --bg: #000000;
+  --text: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.62);
+  --surface-1: rgba(255, 255, 255, 0.16);
+  --surface-2: rgba(255, 255, 255, 0.04);
+  --surface-hover: rgba(255, 255, 255, 0.09);
+  --surface-strong-1: rgba(255, 255, 255, 0.3);
+  --surface-strong-2: rgba(255, 255, 255, 0.12);
+  --border: rgba(255, 255, 255, 0.16);
+  --border-strong: rgba(255, 255, 255, 0.38);
+  --shadow-elevated: rgba(0, 0, 0, 0.85);
+  --shadow-highlight: rgba(255, 255, 255, 0.4);
+  --input-1: rgba(156, 156, 156, 0.3);
+  --input-2: rgba(136, 136, 136, 0.12);
+  --menu-1: rgb(75, 75, 75);
+  --menu-2: #000000;
+  --icon-muted: rgb(140, 140, 140);
+  --icon-dim: 1.75;
+  --track: #2e2e2e;
+  --invert-bg: #ffffff;
+  --invert-text: #000000;
+  --overlay: rgba(0, 0, 0, 0.6);
+  --ambient: rgba(60, 166, 166, 0.16);
+  color-scheme: dark;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -55,15 +138,18 @@
   body {
     position: relative;
     min-height: 100vh;
-    background-color: black;
-    color: white;
+    background-color: var(--bg);
+    color: var(--text);
     font-weight: 200;
+    transition:
+      background-color 0.4s ease,
+      color 0.4s ease;
 
     /* compensa o header fixo */
     padding-top: 100px;
   }
 
-  /* halos de luz fixos, dão profundidade ao fundo preto sem pesar no conteúdo */
+  /* halos de luz fixos, dão profundidade ao fundo sem pesar no conteúdo */
   body::before {
     content: "";
     position: fixed;
@@ -71,9 +157,9 @@
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(600px circle at 12% 8%, rgba(60, 166, 166, 0.16), transparent 60%),
-      radial-gradient(500px circle at 88% 28%, rgba(60, 166, 166, 0.1), transparent 60%),
-      radial-gradient(700px circle at 50% 100%, rgba(60, 166, 166, 0.08), transparent 60%);
+      radial-gradient(600px circle at 12% 8%, var(--ambient), transparent 60%),
+      radial-gradient(500px circle at 88% 28%, var(--ambient), transparent 60%),
+      radial-gradient(700px circle at 50% 100%, var(--ambient), transparent 60%);
   }
 
   ::selection {
@@ -97,7 +183,7 @@
   *::-webkit-scrollbar-thumb {
     background-color: rgba(60, 166, 166, 0.45);
     border-radius: 20px;
-    border: 2px solid black;
+    border: 2px solid var(--bg);
   }
 
   @media (prefers-reduced-motion: reduce) {

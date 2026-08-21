@@ -30,7 +30,7 @@ export function Footer() {
                     className="cursor-pointer border-none bg-transparent transition-all duration-500 hover:scale-[1.08]"
                   >
                     <i
-                      className={`bi ${social.icon} cursor-pointer text-[25px] text-[rgb(99,99,99)]`}
+                      className={`bi ${social.icon} cursor-pointer text-[25px] text-icon-muted`}
                     />
                   </button>
                 </a>
@@ -41,8 +41,8 @@ export function Footer() {
 
         <div>
           <p className="flex items-center gap-[8px] max-[855px]:justify-center">
-            <i className="bi bi-envelope-fill cursor-pointer text-[25px] text-[rgb(99,99,99)]" />
-            <a href={`mailto:${EMAIL}`} className="text-white">
+            <i className="bi bi-envelope-fill cursor-pointer text-[25px] text-icon-muted" />
+            <a href={`mailto:${EMAIL}`} className="text-text">
               {EMAIL}
             </a>
           </p>

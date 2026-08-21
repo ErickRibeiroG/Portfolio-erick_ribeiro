@@ -8,23 +8,26 @@ import { Projects } from "./components/Projects";
 import { ScrollProgress } from "./components/ScrollProgress";
 import { Skills } from "./components/Skills";
 import { LanguageProvider } from "./i18n/LanguageProvider";
+import { ThemeProvider } from "./theme/ThemeProvider";
 
 export default function App() {
   return (
-    <LanguageProvider>
-      <ScrollProgress />
-      <Header />
+    <ThemeProvider>
+      <LanguageProvider>
+        <ScrollProgress />
+        <Header />
 
-      <main>
-        <Hero />
-        <Skills />
-        <About />
-        <Projects />
-        <Contact />
-      </main>
+        <main>
+          <Hero />
+          <Skills />
+          <About />
+          <Projects />
+          <Contact />
+        </main>
 
-      <Footer />
-      <BackToTop />
-    </LanguageProvider>
+        <Footer />
+        <BackToTop />
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }

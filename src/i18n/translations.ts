@@ -16,6 +16,7 @@ const pt = {
       "Estudo tecnologia há dois anos e atuo como desenvolvedor com foco em backend e análise de dados. Desenvolvo projetos utilizando Python, Django e bibliotecas voltadas à análise de dados, como Pandas e Plotly.",
     btnCv: "Baixar CV",
     btnCtt: "Entre em contato",
+    status: "Aberto a oportunidades",
   },
   hab: {
     kicker: "O que eu uso",
@@ -86,6 +87,7 @@ const pt = {
     fecharMenu: "Fechar menu",
     tecnologias: "Tecnologias e ferramentas",
     voltarTopo: "Voltar ao topo",
+    trocarTema: "Alternar tema claro/escuro",
   },
 } as const;
 
@@ -115,6 +117,7 @@ const en: Translation = {
       "I've been studying technology for two years and work as a developer focused on backend and data analysis. I build projects using Python, Django and data libraries like Pandas and Plotly.",
     btnCv: "Download CV",
     btnCtt: "Get in touch",
+    status: "Open to work",
   },
   hab: {
     kicker: "What I use",
@@ -185,6 +188,7 @@ const en: Translation = {
     fecharMenu: "Close menu",
     tecnologias: "Technologies and tools",
     voltarTopo: "Back to top",
+    trocarTema: "Toggle light/dark theme",
   },
 };
 

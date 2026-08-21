@@ -3,6 +3,7 @@ import { navItems } from "../data/site";
 import { useClickOutside } from "../hooks/useClickOutside";
 import { useLanguage } from "../i18n/useLanguage";
 import { LanguageSwitch } from "./LanguageSwitch";
+import { ThemeToggle } from "./ThemeToggle";
 
 const LINE_BASE =
   "relative mx-auto my-[5px] block h-px origin-center transition-all duration-200";
@@ -32,21 +33,21 @@ export function MobileMenu() {
           className={`${LINE_BASE} w-5 ${
             open
               ? "translate-y-[7px] -rotate-45 bg-[rgb(212,71,71)]"
-              : "bg-white"
+              : "bg-text"
           }`}
         />
-        <span className={`${LINE_BASE} ${open ? "w-0 bg-white" : "w-5 bg-white"}`} />
+        <span className={`${LINE_BASE} ${open ? "w-0 bg-text" : "w-5 bg-text"}`} />
         <span
           className={`${LINE_BASE} w-5 ${
             open
               ? "-translate-y-[5px] rotate-45 bg-[rgb(212,71,71)]"
-              : "bg-white"
+              : "bg-text"
           }`}
         />
       </button>
 
       <div
-        className={`absolute top-[150%] right-[10px] z-[9999] w-[200px] items-center rounded-[15px] border-b border-b-brand-alt bg-linear-to-b from-[rgb(75,75,75)] to-black p-[10px] text-center shadow-[0_30px_60px_rgba(0,0,0,0.85),inset_0_1px_0_rgba(255,255,255,0.4)] backdrop-blur-[18px] transition-all duration-[400ms] ${
+        className={`absolute top-[150%] right-[10px] z-[9999] w-[200px] items-center rounded-[15px] border-b border-b-brand-alt bg-linear-to-b from-menu-1 to-menu-2 p-[10px] text-center shadow-[0_30px_60px_var(--shadow-elevated),inset_0_1px_0_var(--shadow-highlight)] backdrop-blur-[18px] transition-all duration-[400ms] ${
           open
             ? "visible translate-y-0 opacity-100"
             : "invisible -translate-y-5 opacity-0"
@@ -59,7 +60,7 @@ export function MobileMenu() {
                 <a
                   href={item.href}
                   onClick={close}
-                  className="inline-block text-white transition-all duration-500 hover:scale-[1.06] hover:text-brand"
+                  className="inline-block text-text transition-all duration-500 hover:scale-[1.06] hover:text-brand"
                 >
                   {t.menu[item.key]}
                 </a>
@@ -68,7 +69,8 @@ export function MobileMenu() {
           </ul>
         </nav>
 
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center gap-[8px] pt-[6px]">
+          <ThemeToggle />
           <LanguageSwitch />
         </div>
       </div>

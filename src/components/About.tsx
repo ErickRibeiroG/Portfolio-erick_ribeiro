@@ -16,7 +16,7 @@ function LanguageBar({
   return (
     <div className="flex items-center gap-[10px]">
       <span className="w-[90px] text-right">{name}</span>
-      <div className="h-[8px] w-[140px] flex-1 overflow-hidden rounded-[20px] bg-[#2e2e2e]">
+      <div className="h-[8px] w-[140px] flex-1 overflow-hidden rounded-[20px] bg-track">
         <div
           className="h-full rounded-[20px] bg-brand"
           style={{ width: percent }}

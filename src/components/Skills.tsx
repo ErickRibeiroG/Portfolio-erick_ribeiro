@@ -21,10 +21,10 @@ export function Skills() {
             <Reveal key={group.key} delay={index * 80} className="min-w-0">
               <section>
                 <div className="mb-[14px]">
-                  <h2 className="mb-[4px] text-[1.1rem] text-white">
+                  <h2 className="mb-[4px] text-[1.1rem] text-text">
                     {t.hab.grid[group.key].titulo}
                   </h2>
-                  <p className="text-[0.85rem] text-white/55">
+                  <p className="text-[0.85rem] text-muted">
                     {t.hab.grid[group.key].subtitulo}
                   </p>
                 </div>
