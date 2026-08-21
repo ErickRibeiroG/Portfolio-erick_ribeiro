@@ -1,11 +1,12 @@
 import { EMAIL, socialLinks } from "../data/site";
 import { Container } from "./Container";
+import { Reveal } from "./Reveal";
 
 export function Footer() {
   return (
     <footer className="border-t border-t-[#3ba5a575] px-[5%] py-[40px]">
       <Container>
-        <div>
+        <Reveal>
           <div className="flex justify-between max-[855px]:flex-col max-[855px]:items-center">
             <div>
               <img
@@ -29,19 +30,19 @@ export function Footer() {
                     className="cursor-pointer border-none bg-transparent transition-all duration-500 hover:scale-[1.08]"
                   >
                     <i
-                      className={`bi ${social.icon} cursor-pointer text-[25px] text-[rgb(99,99,99)]`}
+                      className={`bi ${social.icon} cursor-pointer text-[25px] text-icon-muted`}
                     />
                   </button>
                 </a>
               ))}
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <div>
           <p className="flex items-center gap-[8px] max-[855px]:justify-center">
-            <i className="bi bi-envelope-fill cursor-pointer text-[25px] text-[rgb(99,99,99)]" />
-            <a href={`mailto:${EMAIL}`} className="text-white">
+            <i className="bi bi-envelope-fill cursor-pointer text-[25px] text-icon-muted" />
+            <a href={`mailto:${EMAIL}`} className="text-text">
               {EMAIL}
             </a>
           </p>

@@ -1,6 +1,7 @@
 import { socialLinks } from "../data/site";
 import { useLanguage } from "../i18n/useLanguage";
 import { Container } from "./Container";
+import { Reveal } from "./Reveal";
 import { RichText } from "./RichText";
 
 function LanguageBar({
@@ -15,7 +16,7 @@ function LanguageBar({
   return (
     <div className="flex items-center gap-[10px]">
       <span className="w-[90px] text-right">{name}</span>
-      <div className="h-[8px] w-[140px] flex-1 overflow-hidden rounded-[20px] bg-[#2e2e2e]">
+      <div className="h-[8px] w-[140px] flex-1 overflow-hidden rounded-[20px] bg-track">
         <div
           className="h-full rounded-[20px] bg-brand"
           style={{ width: percent }}
@@ -33,8 +34,9 @@ export function About() {
     <section id="sobre" className="scroll-mt-20 px-[5%] py-[180px]">
       <Container>
         <div className="flex items-center gap-[60px] max-[855px]:flex-col">
-          <div>
-            <div className="flex justify-center">
+          <Reveal direction="left">
+            <div className="relative flex justify-center">
+              <div className="absolute -inset-5 -z-10 rounded-full bg-brand/15 blur-[70px]" />
               <img
                 src="/assets/images/foto_retangular.png"
                 alt=""
@@ -57,9 +59,13 @@ export function About() {
                 percent="70%"
               />
             </div>
-          </div>
+          </Reveal>
 
-          <div className="max-[855px]:text-center">
+          <Reveal direction="right" className="max-[855px]:text-center">
+            <span className="mb-[10px] inline-flex items-center gap-[8px] rounded-full border border-brand/30 bg-brand/10 px-[14px] py-[5px] text-[0.75rem] font-semibold tracking-[0.08em] text-brand uppercase max-[855px]:mx-auto">
+              <span className="h-[6px] w-[6px] rounded-full bg-brand" />
+              {t.sobre.kicker}
+            </span>
             <h1 className="mb-[30px] text-[40px] font-bold">{t.sobre.titulo}</h1>
 
             {[t.sobre.p1, t.sobre.p2, t.sobre.p3].map((paragraph, index) => (
@@ -86,7 +92,7 @@ export function About() {
                 </a>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

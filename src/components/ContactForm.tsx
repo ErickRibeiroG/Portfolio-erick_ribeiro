@@ -5,7 +5,7 @@ import { EMAILJS } from "../data/site";
 import { useLanguage } from "../i18n/useLanguage";
 
 const FIELD =
-  "w-full rounded-[10px] border-none bg-linear-to-b from-[rgba(156,156,156,0.3)] to-[rgba(136,136,136,0.12)] px-[25px] py-[15px] text-[18px] text-white outline-none placeholder:text-white";
+  "w-full rounded-[10px] border-none bg-linear-to-b from-input-1 to-input-2 px-[25px] py-[15px] text-[18px] text-text outline-none placeholder:text-muted transition-shadow duration-300 focus:shadow-[0_0_0_2px_var(--color-brand)]";
 
 export function ContactForm() {
   const { t } = useLanguage();
@@ -41,7 +41,7 @@ export function ContactForm() {
   }
 
   return (
-    <div className="relative flex h-[500px] w-[600px] flex-col items-center justify-center rounded-tl-[30px] bg-linear-to-b from-white/16 to-white/4 backdrop-blur-[18px] max-[665px]:w-[350px]">
+    <div className="relative flex h-[500px] w-[600px] flex-col items-center justify-center rounded-tl-[30px] bg-linear-to-b from-surface-1 to-surface-2 shadow-[0_20px_50px_var(--shadow-elevated)] backdrop-blur-[18px] max-[665px]:w-[350px]">
       <h3 className="mb-[25px] text-[1.17em] font-bold">{t.cntt.h3form}</h3>
 
       <form
@@ -81,7 +81,7 @@ export function ContactForm() {
       </form>
 
       <div
-        className={`absolute inset-0 flex items-center justify-center rounded-tl-[30px] bg-black/60 backdrop-blur-[10px] transition-opacity duration-700 ${
+        className={`absolute inset-0 flex items-center justify-center rounded-tl-[30px] bg-overlay backdrop-blur-[10px] transition-opacity duration-700 ${
           sent ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >

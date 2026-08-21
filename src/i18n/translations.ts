@@ -16,8 +16,10 @@ const pt = {
       "Estudo tecnologia há dois anos e atuo como desenvolvedor com foco em backend e análise de dados. Desenvolvo projetos utilizando Python, Django e bibliotecas voltadas à análise de dados, como Pandas e Plotly.",
     btnCv: "Baixar CV",
     btnCtt: "Entre em contato",
+    status: "Aberto a oportunidades",
   },
   hab: {
+    kicker: "O que eu uso",
     titulo: "Minhas Habilidades",
     grid: {
       linguagens: {
@@ -47,6 +49,7 @@ const pt = {
     },
   },
   sobre: {
+    kicker: "Quem sou eu",
     titulo: "Sobre mim",
     idiomas: "Idiomas",
     pt: "Português",
@@ -58,10 +61,12 @@ const pt = {
     p3: "Atualmente, estou em busca do meu primeiro estágio na área de tecnologia, com o objetivo de aplicar meus conhecimentos e aprender com desafios reais do mercado.",
   },
   proj: {
+    kicker: "Portfólio",
     titulo: "Meus projetos",
     code: "Code",
   },
   cntt: {
+    kicker: "Vamos conversar",
     titulo: "Fale comigo",
     h3form: "Formulário de contato.",
     nome: "Seu nome:",
@@ -81,6 +86,8 @@ const pt = {
     abrirMenu: "Abrir menu",
     fecharMenu: "Fechar menu",
     tecnologias: "Tecnologias e ferramentas",
+    voltarTopo: "Voltar ao topo",
+    trocarTema: "Alternar tema claro/escuro",
   },
 } as const;
 
@@ -110,8 +117,10 @@ const en: Translation = {
       "I've been studying technology for two years and work as a developer focused on backend and data analysis. I build projects using Python, Django and data libraries like Pandas and Plotly.",
     btnCv: "Download CV",
     btnCtt: "Get in touch",
+    status: "Open to work",
   },
   hab: {
+    kicker: "What I use",
     titulo: "My Skills",
     grid: {
       linguagens: {
@@ -141,6 +150,7 @@ const en: Translation = {
     },
   },
   sobre: {
+    kicker: "Who I am",
     titulo: "About me",
     idiomas: "Languages",
     pt: "Portuguese",
@@ -152,10 +162,12 @@ const en: Translation = {
     p3: "I'm currently looking for my first internship in the tech industry, aiming to apply my knowledge and learn from real-world challenges.",
   },
   proj: {
+    kicker: "Portfolio",
     titulo: "My projects",
     code: "Code",
   },
   cntt: {
+    kicker: "Let's talk",
     titulo: "Get in touch.",
     h3form: "Contact form.",
     nome: "Your name:",
@@ -175,6 +187,8 @@ const en: Translation = {
     abrirMenu: "Open menu",
     fecharMenu: "Close menu",
     tecnologias: "Technologies and tools",
+    voltarTopo: "Back to top",
+    trocarTema: "Toggle light/dark theme",
   },
 };
 
