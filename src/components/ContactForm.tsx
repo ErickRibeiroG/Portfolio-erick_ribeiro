@@ -5,7 +5,7 @@ import { EMAILJS } from "../data/site";
 import { useLanguage } from "../i18n/useLanguage";
 
 const FIELD =
-  "w-full rounded-[10px] border-none bg-linear-to-b from-[rgba(156,156,156,0.3)] to-[rgba(136,136,136,0.12)] px-[25px] py-[15px] text-[18px] text-white outline-none placeholder:text-white";
+  "w-full rounded-[10px] border-none bg-linear-to-b from-[rgba(156,156,156,0.3)] to-[rgba(136,136,136,0.12)] px-[25px] py-[15px] text-[18px] text-white outline-none placeholder:text-white transition-shadow duration-300 focus:shadow-[0_0_0_2px_var(--color-brand)]";
 
 export function ContactForm() {
   const { t } = useLanguage();

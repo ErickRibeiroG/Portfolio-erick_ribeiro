@@ -2,6 +2,8 @@ import { EMAIL, SOCIALS } from "../data/site";
 import { useLanguage } from "../i18n/useLanguage";
 import { Container } from "./Container";
 import { ContactForm } from "./ContactForm";
+import { Reveal } from "./Reveal";
+import { SectionHeading } from "./SectionHeading";
 
 const ICON_LINK =
   "text-white transition-all duration-[400ms] hover:scale-[1.09]";
@@ -12,14 +14,18 @@ export function Contact() {
   return (
     <section id="contato" className="scroll-mt-20 px-[5%] py-[180px]">
       <Container>
-        <h1 className="mb-[30px] text-center text-[40px] font-bold">
-          {t.cntt.titulo}
-        </h1>
+        <SectionHeading kicker={t.cntt.kicker} title={t.cntt.titulo} />
 
         <div className="flex items-center justify-center max-[855px]:flex-col">
-          <ContactForm />
+          <Reveal direction="left">
+            <ContactForm />
+          </Reveal>
 
-          <div className="flex h-[500px] w-[600px] flex-col items-center rounded-br-[30px] bg-linear-to-b from-white/30 to-white/12 backdrop-blur-[14px] max-[1035px]:px-[5%] max-[1035px]:text-center max-[665px]:w-[350px] max-[665px]:px-[10%]">
+          <Reveal
+            direction="right"
+            delay={120}
+            className="flex h-[500px] w-[600px] flex-col items-center rounded-br-[30px] bg-linear-to-b from-white/30 to-white/12 backdrop-blur-[14px] max-[1035px]:px-[5%] max-[1035px]:text-center max-[665px]:w-[350px] max-[665px]:px-[10%]"
+          >
             <div className="flex flex-1 flex-col items-center justify-center text-center">
               <p className="mb-[12px] text-left max-[665px]:text-center">
                 {t.cntt.p1}
@@ -71,7 +77,7 @@ export function Contact() {
             <div className="pb-[25px]">
               <h3 className="text-[1.17em] font-bold">{t.cntt.outros}</h3>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Container>
     </section>

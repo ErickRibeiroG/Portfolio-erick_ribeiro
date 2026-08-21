@@ -1,11 +1,12 @@
 import { EMAIL, socialLinks } from "../data/site";
 import { Container } from "./Container";
+import { Reveal } from "./Reveal";
 
 export function Footer() {
   return (
     <footer className="border-t border-t-[#3ba5a575] px-[5%] py-[40px]">
       <Container>
-        <div>
+        <Reveal>
           <div className="flex justify-between max-[855px]:flex-col max-[855px]:items-center">
             <div>
               <img
@@ -36,7 +37,7 @@ export function Footer() {
               ))}
             </div>
           </div>
-        </div>
+        </Reveal>
 
         <div>
           <p className="flex items-center gap-[8px] max-[855px]:justify-center">

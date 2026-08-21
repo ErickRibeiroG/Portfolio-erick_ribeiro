@@ -18,7 +18,7 @@ export function Header() {
     >
       <div className="mx-auto flex max-w-[1280px] items-center justify-between">
         <div>
-          <a href="#" className="flex items-center">
+          <a href="#" className="flex items-center transition-transform duration-500 hover:scale-[1.06]">
             <img
               src="/assets/images/iniciais.png"
               alt="logo"
@@ -36,9 +36,10 @@ export function Header() {
               >
                 <a
                   href={item.href}
-                  className="inline-block text-white transition-all duration-500 hover:scale-[1.06] hover:text-brand"
+                  className="group relative inline-block py-[6px] text-white transition-colors duration-300 hover:text-brand"
                 >
                   {t.menu[item.key]}
+                  <span className="absolute bottom-0 left-0 h-[2px] w-full origin-left scale-x-0 bg-brand transition-transform duration-300 ease-out group-hover:scale-x-100" />
                 </a>
               </li>
             ))}
