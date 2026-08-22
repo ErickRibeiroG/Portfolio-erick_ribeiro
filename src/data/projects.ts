@@ -40,4 +40,19 @@ export const projects: Project[] = [
       TECHS.javascript,
     ],
   },
+  {
+    id: "petshop",
+    title: "Aurora Petshop",
+    description: "Sistema de gerenciamento para petshop.",
+    image: "/assets/images/projetos/petshop.png",
+    repo: "https://github.com/ErickRibeiroG/pet-shop",
+    techs: [
+      TECHS.python,
+      TECHS.fastapi,
+      TECHS.react,
+      TECHS.tailwind,
+      TECHS.typescript,
+      TECHS.sqlite,
+    ],
+  },
 ];
