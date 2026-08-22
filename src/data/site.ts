@@ -2,7 +2,7 @@ import type { Translation } from "../i18n/translations";
 
 export const EMAIL = "erick2ribeirogg@gmail.com";
 
-export const CV_PATH = "/assets/pdf/Currículo Erick R Graciano.pdf";
+export const CV_PATH = "/assets/pdf/Currículo Erick R. Graciano.pdf";
 
 export const SOCIALS = {
   instagram: "https://www.instagram.com/erickk_ribeiro/",
