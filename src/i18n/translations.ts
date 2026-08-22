@@ -64,6 +64,7 @@ const pt = {
     kicker: "Portfólio",
     titulo: "Meus projetos",
     code: "Code",
+    deploy: "Deploy",
   },
   cntt: {
     kicker: "Vamos conversar",
@@ -165,6 +166,7 @@ const en: Translation = {
     kicker: "Portfolio",
     titulo: "My projects",
     code: "Code",
+    deploy: "Deploy",
   },
   cntt: {
     kicker: "Let's talk",
