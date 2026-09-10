@@ -13,7 +13,13 @@ export function ProjectCard({ project }: { project: Project }) {
       <div
         className="relative h-[230px] shrink-0 overflow-hidden bg-top bg-cover transition-[background-position] duration-[4000ms] ease-in-out group-hover:bg-bottom"
         style={{ backgroundImage: `url("${project.image}")` }}
-      />
+      >
+        {project.desenvolvimento && (
+          <span className="absolute right-[16px] top-[16px] rounded-[6px] border border-white/30 bg-black/65 px-[10px] py-[6px] text-[12px] font-semibold text-white shadow-[0_4px_12px_rgba(0,0,0,0.25)] backdrop-blur-[6px]">
+            Em desenvolvimento
+          </span>
+        )}
+      </div>
 
       <div className="flex flex-1 flex-col px-[24px] py-[20px] text-left">
         <h2 className="mb-[8px] text-2xl font-bold">{project.title}</h2>

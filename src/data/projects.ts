@@ -8,6 +8,7 @@ export interface Project {
   image: string;
   repo: string;
   demo?: string;
+  desenvolvimento: boolean;
   techs: Tech[];
 }
 
@@ -18,6 +19,7 @@ export const projects: Project[] = [
     description: "Este projeto consiste em um sistema web de controle financeiro desenvolvido com Python e Django, com foco na modelagem, persistência, manipulação e análise de dados. Além das operações de CRUD, o sistema possui uma camada analítica, onde os dados financeiros são processados com Pandas e visualizados por meio de gráficos interativos com Plotly.",
     image: "/assets/images/projetos/home-controleFinanceiro.png",
     repo: "https://github.com/Erick22Ribeiro/Controle-financas",
+    desenvolvimento: false,
     techs: [
       TECHS.python,
       TECHS.django,
@@ -33,6 +35,7 @@ export const projects: Project[] = [
     description: "Aplicação web simples em Django para gerenciar uma biblioteca pessoal: cadastrar livros, marcar como \"Quero ler\", \"Comprado\" ou \"Lido\", e buscar livros por APIs (ex.: Google Books). Ideal para quem quer um catálogo pessoal de leitura com uma interface web leve.",
     image: "/assets/images/projetos/livraria-editado.jpeg",
     repo: "https://github.com/Erick22Ribeiro/My-Library",
+    desenvolvimento: false,
     techs: [
       TECHS.python,
       TECHS.django,
@@ -47,6 +50,7 @@ export const projects: Project[] = [
     description: "Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.",
     image: "/assets/images/projetos/petshop.png",
     repo: "https://github.com/ErickRibeiroG/pet-shop",
+    desenvolvimento: true,
     techs: [
       TECHS.python,
       TECHS.fastapi,
