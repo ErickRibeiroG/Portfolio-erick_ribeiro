@@ -47,7 +47,7 @@ export const projects: Project[] = [
   {
     id: "petshop",
     title: "Aurora Petshop",
-    description: "Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.Sistema de gerenciamento para petshop.",
+    description: "Sistema de gerenciamento para petshop.",
     image: "/assets/images/projetos/petshop.png",
     repo: "https://github.com/ErickRibeiroG/pet-shop",
     desenvolvimento: true,
@@ -58,6 +58,23 @@ export const projects: Project[] = [
       TECHS.tailwind,
       TECHS.typescript,
       TECHS.sqlite,
+    ],
+  },
+  {
+    id: "strava",
+    title: "API Strava",
+    description: "Sistema que consome API do strava para visualização e tratamento de dados.",
+    image: "/assets/images/projetos/strava.png",
+    repo: "https://github.com/ErickRibeiroG/pet-shop",
+    desenvolvimento: true,
+    techs: [
+      TECHS.python,
+      TECHS.fastapi,
+      TECHS.react,
+      TECHS.tailwind,
+      TECHS.typescript,
+      TECHS.postgresql,
+      TECHS.docker,
     ],
   },
 ];

@@ -29,7 +29,7 @@ export function ProjectCard({ project }: { project: Project }) {
         </p>
 
         <div
-          className={`mt-[12px] flex max-h-[90px] flex-wrap items-center gap-[8px] overflow-y-auto ${THIN_SCROLLBAR}`}
+          className={`mt-[12px] flex h-[66px] shrink-0 flex-wrap content-start items-center gap-[8px] overflow-y-auto ${THIN_SCROLLBAR}`}
         >
           {project.techs.map((tech) => (
             <span
