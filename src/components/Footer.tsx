@@ -10,9 +10,14 @@ export function Footer() {
           <div className="flex justify-between max-[855px]:flex-col max-[855px]:items-center">
             <div>
               <img
-                src="/assets/images/iniciais.png"
-                alt=""
-                className="h-[100px] w-[100px]"
+                src="/assets/images/logo-er-v2-simbolo.svg"
+                alt="logo"
+                className="h-[100px] w-[100px] object-cover dark:hidden"
+              />
+              <img
+                src="/assets/images/logo-er-v2-simbolo-branco.svg"
+                alt="logo"
+                className="hidden h-[100px] w-[100px] object-cover dark:block"
               />
             </div>
 
