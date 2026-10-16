@@ -32,6 +32,8 @@ export const TECHS = {
   node: { name: "Node.js", icon: "nodejs/nodejs-original.svg" },
   pandas: { name: "Pandas", icon: "pandas/pandas-original.svg" },
   plotly: { name: "Plotly", icon: "plotly/plotly-original.svg" },
+  streamlit: { name: "Streamlit", icon: "streamlit/streamlit-original.svg" },
+  matplotlib: { name: "Matplotlib", icon: "matplotlib/matplotlib-original.svg" },
   mongodb: { name: "MongoDB", icon: "mongodb/mongodb-original.svg" },
   postgresql: { name: "PostgreSQL", icon: "postgresql/postgresql-original.svg" },
   sqlite: { name: "SQLite", icon: "sqlite/sqlite-original.svg" },
@@ -56,7 +58,7 @@ export const techGroups: TechGroup[] = [
   },
   {
     key: "dados",
-    techs: [TECHS.pandas, TECHS.plotly],
+    techs: [TECHS.pandas, TECHS.plotly, TECHS.streamlit, TECHS.matplotlib],
   },
   {
     key: "bancos",
