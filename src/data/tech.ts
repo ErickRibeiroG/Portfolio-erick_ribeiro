@@ -58,7 +58,7 @@ export const techGroups: TechGroup[] = [
   },
   {
     key: "dados",
-    techs: [TECHS.pandas, TECHS.plotly, TECHS.streamlit, TECHS.matplotlib],
+    techs: [TECHS.pandas, TECHS.plotly],
   },
   {
     key: "bancos",

@@ -65,6 +65,14 @@ const pt = {
     titulo: "Meus projetos",
     code: "Code",
     deploy: "Deploy",
+    filtros: {
+      todos: "Todos",
+      web: "Web",
+      backend: "Back-end",
+      "data-analysis": "Análise de dados",
+      semProjetos: "Nenhum projeto encontrado nesta categoria.",
+      limparFiltro: "Mostrar todos os projetos",
+    },
   },
   cntt: {
     kicker: "Vamos conversar",
@@ -89,6 +97,7 @@ const pt = {
     tecnologias: "Tecnologias e ferramentas",
     voltarTopo: "Voltar ao topo",
     trocarTema: "Alternar tema claro/escuro",
+    filtrarProjetos: "Filtrar projetos por tipo",
   },
 } as const;
 
@@ -167,6 +176,14 @@ const en: Translation = {
     titulo: "My projects",
     code: "Code",
     deploy: "Deploy",
+    filtros: {
+      todos: "All",
+      web: "Web",
+      backend: "Back-end",
+      "data-analysis": "Data Analytics",
+      semProjetos: "No projects found in this category.",
+      limparFiltro: "Show all projects",
+    },
   },
   cntt: {
     kicker: "Let's talk",
@@ -191,6 +208,7 @@ const en: Translation = {
     tecnologias: "Technologies and tools",
     voltarTopo: "Back to top",
     trocarTema: "Toggle light/dark theme",
+    filtrarProjetos: "Filter projects by type",
   },
 };
 

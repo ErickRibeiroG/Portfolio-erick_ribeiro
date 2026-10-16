@@ -1,11 +1,13 @@
 import { TECHS } from "./tech";
 import type { Tech } from "./tech";
 
+export type ProjectType = "web" | "backend" | "data-analysis";
+
 export interface Project {
   id: string;
   title: string;
   description: string;
-  type: string[];
+  type: ProjectType[];
   image: string;
   repo: string;
   demo?: string;
@@ -19,8 +21,9 @@ export const projects: Project[] = [
     title: "Controle financeiro",
     description: "Este projeto consiste em um sistema web de controle financeiro desenvolvido com Python e Django, com foco na modelagem, persistência, manipulação e análise de dados. Além das operações de CRUD, o sistema possui uma camada analítica, onde os dados financeiros são processados com Pandas e visualizados por meio de gráficos interativos com Plotly.",
     type: [
-      "data-analysis",
-      "web"
+      "web",
+      "backend",
+      "data-analysis"
     ],
     image: "/assets/images/projetos/home-controleFinanceiro.png",
     repo: "https://github.com/Erick22Ribeiro/Controle-financas",
@@ -39,8 +42,8 @@ export const projects: Project[] = [
     title: "Biblioteca online",
     description: "Aplicação web simples em Django para gerenciar uma biblioteca pessoal: cadastrar livros, marcar como \"Quero ler\", \"Comprado\" ou \"Lido\", e buscar livros por APIs (ex.: Google Books). Ideal para quem quer um catálogo pessoal de leitura com uma interface web leve.",
     type: [
-      "data-analysis",
-      "web"
+      "web",
+      "backend"
     ],
     image: "/assets/images/projetos/livraria-editado.jpeg",
     repo: "https://github.com/Erick22Ribeiro/My-Library",
@@ -56,10 +59,10 @@ export const projects: Project[] = [
   {
     id: "petshop",
     title: "Aurora Petshop",
-    description: "Sistema de gerenciamento para petshop.",
+    description: "Sistema de gerenciamento para petshop que permite gerenciamento de animais e clientes, e agendamento de serviços.",
     type: [
-      "data-analysis",
-      "web"
+      "web",
+      "backend"
     ],
     image: "/assets/images/projetos/petshop.png",
     repo: "https://github.com/ErickRibeiroG/pet-shop",
@@ -76,10 +79,11 @@ export const projects: Project[] = [
   {
     id: "strava",
     title: "API Strava",
-    description: "Sistema que consome API do strava para visualização e tratamento de dados.",
+    description: "Sistema que consome API do strava para visualização e tratamento de dados de atividades físicas.",
     type: [
-      "data-analysis",
-      "web"
+      "web",
+      "backend",
+      "data-analysis"
     ],
     image: "/assets/images/projetos/strava.png",
     repo: "https://github.com/ErickRibeiroG/pet-shop",
@@ -97,10 +101,9 @@ export const projects: Project[] = [
   {
     id: "agua",
     title: "Análise consumo de água no Brasil",
-    description: "Sistema que consome API do strava para visualização e tratamento de dados.",
+    description: "Sistema que apresenta análises e gráficos interativos sobre o consumo de água no Brasil, com integração a três APIs do IBGE para enriquecer as análises e gerar insights a partir dos dados disponíveis.",
     type: [
-      "data-analysis",
-      "web"
+      "data-analysis"
     ],
     image: "/assets/images/projetos/consumo-agua.png",
     repo: "https://github.com/ErickRibeiroG/pet-shop",
