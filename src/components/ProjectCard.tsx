@@ -22,6 +22,17 @@ export function ProjectCard({ project }: { project: Project }) {
       </div>
 
       <div className="flex flex-1 flex-col px-[24px] py-[20px] text-left">
+        <div className="mb-[8px] flex flex-wrap gap-[6px]">
+          {project.type.map((tKey) => (
+            <span
+              key={tKey}
+              className="rounded-full border border-brand/30 bg-brand/10 px-[9px] py-[2px] text-[11px] font-medium text-brand"
+            >
+              {t.proj.filtros[tKey]}
+            </span>
+          ))}
+        </div>
+
         <h2 className="mb-[8px] text-2xl font-bold">{project.title}</h2>
 
         <p className="line-clamp-3 min-h-[61px] text-[15px] leading-[1.35] text-muted">
