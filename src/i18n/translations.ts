@@ -56,7 +56,7 @@ const pt = {
     in: "Inglês",
     nativo: "Nativo",
     pro: "Proficiente",
-    p1: "Meu nome é Erick Ribeiro, tenho 21 anos e sou do Rio de Janeiro. Sou estudante de <strong>Sistemas de Informação</strong> pelo Unilasalle-RJ e desenvolvedor com foco em <strong>backend e análise de dados</strong>.",
+    p1: "Meu nome é Erick Ribeiro, tenho 21 anos e sou do Rio de Janeiro. Sou estudante de <strong>Sistemas de Informação</strong> pelo Unilasalle-RJ e desenvolvedor.",
     p2: "Tenho experiência no desenvolvimento de projetos <strong>web, backend, análise de dados, automação e machine learning</strong>. Atualmente, concentro meus projetos em <strong>backend e frontend</strong>, aprofundando meus conhecimentos em <strong>Python</strong> e em bibliotecas como <strong>FastAPI e React</strong>.",
     p3: "Atualmente, atuo como <strong>estagiário em desenvolvimento fullstack</strong> na <strong>Procuradoria-Geral do Estado do Rio de Janeiro (PGE-RJ)</strong>, aplicando meus conhecimentos no desenvolvimento de soluções e aprendendo com desafios reais.",
   },

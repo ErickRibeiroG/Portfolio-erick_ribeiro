@@ -12,12 +12,12 @@ export function Footer() {
               <img
                 src="/assets/images/logo-er-v2-simbolo.svg"
                 alt="logo"
-                className="h-[100px] w-[100px] object-cover dark:hidden"
+                className="h-[90px] w-[90px] object-cover dark:hidden"
               />
               <img
                 src="/assets/images/logo-er-v2-simbolo-branco.svg"
                 alt="logo"
-                className="hidden h-[100px] w-[100px] object-cover dark:block"
+                className="hidden h-[90px] w-[90px] object-cover dark:block"
               />
             </div>
 

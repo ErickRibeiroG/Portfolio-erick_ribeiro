@@ -23,12 +23,12 @@ export function Header() {
             <img
               src="/assets/images/logo-er-v2-simbolo.svg"
               alt="logo"
-              className="h-[70px] w-[70px] object-cover dark:hidden"
+              className="h-[60px] w-[60px] object-cover dark:hidden"
             />
             <img
               src="/assets/images/logo-er-v2-simbolo-branco.svg"
               alt="logo"
-              className="hidden h-[70px] w-[70px] object-cover dark:block"
+              className="hidden h-[60px] w-[60px] object-cover dark:block"
             />
           </a>
         </div>
