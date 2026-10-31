@@ -100,7 +100,7 @@ export const projects: Project[] = [
   },
   {
     id: "agua",
-    title: "Análise consumo de água no Brasil",
+    title: "Consumo de água no Brasil",
     description: "Sistema que apresenta análises e gráficos interativos sobre o consumo de água no Brasil, com integração a três APIs do IBGE para enriquecer as análises e gerar insights a partir dos dados disponíveis.",
     type: [
       "data-analysis"
