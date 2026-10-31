@@ -11,19 +11,24 @@ export function Header() {
 
   return (
     <header
-      className={`fixed right-0 left-0 z-[1000] mx-auto border-b border-b-[#3ba5a575] bg-linear-to-b from-surface-1 to-surface-2 px-[10px] backdrop-blur-[18px] transition-[width,top,border-radius,box-shadow,background-color] duration-[400ms] ease-in-out ${
+      className={`fixed right-0 left-0 z-[1000] mx-auto h-[80px] border-b border-b-[#3ba5a575] bg-linear-to-b from-surface-1 to-surface-2 px-[10px] backdrop-blur-[18px] transition-[width,top,border-radius,box-shadow,background-color] duration-[400ms] ease-in-out ${
         scrolled
           ? "top-[10px] w-[calc(100%-100px)] rounded-[40px] shadow-[0_10px_30px_var(--shadow-elevated)]"
           : "top-0 w-full shadow-[0_30px_60px_var(--shadow-elevated)]"
       }`}
     >
-      <div className="mx-auto flex max-w-[1280px] items-center justify-between">
+      <div className="mx-auto flex h-full max-w-[1280px] items-center justify-between">
         <div>
           <a href="#" className="flex items-center transition-transform duration-500 hover:scale-[1.06]">
             <img
-              src="/assets/images/iniciais.png"
+              src="/assets/images/logo-er-v2-simbolo.svg"
               alt="logo"
-              className="h-[90px] w-[90px] object-cover"
+              className="h-[60px] w-[60px] object-cover dark:hidden"
+            />
+            <img
+              src="/assets/images/logo-er-v2-simbolo-branco.svg"
+              alt="logo"
+              className="hidden h-[60px] w-[60px] object-cover dark:block"
             />
           </a>
         </div>

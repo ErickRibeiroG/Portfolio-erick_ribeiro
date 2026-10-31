@@ -33,7 +33,7 @@ export function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
 
-        <h2 className="mb-[8px] text-2xl font-bold">{project.title}</h2>
+        <h2 className="mb-[8px] truncate text-2xl font-bold">{project.title}</h2>
 
         <p className="line-clamp-3 min-h-[61px] text-[15px] leading-[1.35] text-muted">
           {project.description}
