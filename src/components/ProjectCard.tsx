@@ -5,20 +5,69 @@ import { useLanguage } from "../i18n/useLanguage";
 const THIN_SCROLLBAR =
   "[scrollbar-width:thin] [scrollbar-color:rgba(180,180,180,0.24)_transparent]";
 
-export function ProjectCard({ project }: { project: Project }) {
+interface ProjectCardProps {
+  project: Project;
+  onOpenModal: (project: Project) => void;
+}
+
+export function ProjectCard({ project, onOpenModal }: ProjectCardProps) {
   const { t } = useLanguage();
 
   return (
-    <div className="group flex min-h-[470px] w-[420px] flex-col overflow-hidden rounded-[20px] bg-linear-to-b from-surface-1 to-surface-2 shadow-[0_30px_60px_var(--shadow-elevated),inset_0_1px_0_var(--shadow-highlight)] backdrop-blur-[18px] transition-[translate,box-shadow] duration-1000 ease-out hover:-translate-y-[10px] hover:shadow-[0_35px_65px_var(--shadow-elevated),inset_0_1px_0_var(--shadow-highlight)] max-[520px]:w-[300px]">
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={() => onOpenModal(project)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onOpenModal(project);
+        }
+      }}
+      className="group flex min-h-[470px] w-[420px] cursor-pointer flex-col overflow-hidden rounded-[20px] border border-transparent bg-linear-to-b from-surface-1 to-surface-2 shadow-[0_30px_60px_var(--shadow-elevated),inset_0_1px_0_var(--shadow-highlight)] backdrop-blur-[18px] transition-[translate,box-shadow,border-color] duration-500 ease-out hover:-translate-y-[10px] hover:border-brand/40 hover:shadow-[0_35px_65px_var(--shadow-elevated),inset_0_1px_0_var(--shadow-highlight)] max-[520px]:w-[300px]"
+    >
       <div
         className="relative h-[230px] shrink-0 overflow-hidden bg-top bg-cover transition-[background-position] duration-[4000ms] ease-in-out group-hover:bg-bottom"
         style={{ backgroundImage: `url("${project.image}")` }}
       >
+        {/* Status "Em desenvolvimento" no canto superior esquerdo */}
         {project.desenvolvimento && (
-          <span className="absolute right-[16px] top-[16px] rounded-[6px] border border-white/30 bg-black/65 px-[10px] py-[6px] text-[12px] font-semibold text-white shadow-[0_4px_12px_rgba(0,0,0,0.25)] backdrop-blur-[6px]">
-            Em desenvolvimento
+          <span className="absolute left-[14px] top-[14px] z-10 rounded-[6px] border border-white/30 bg-black/65 px-[10px] py-[6px] text-[12px] font-semibold text-white shadow-[0_4px_12px_rgba(0,0,0,0.25)] backdrop-blur-[6px]">
+            {t.proj.emDesenvolvimento}
           </span>
         )}
+
+        {/* Ícone no canto superior direito indicando que o card é clicável / abre tela cheia */}
+        <div className="absolute right-[14px] top-[14px] z-10">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenModal(project);
+            }}
+            title={t.proj.verDetalhes}
+            aria-label={`${t.proj.verDetalhes} - ${project.title}`}
+            className="flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-white/30 bg-black/60 text-white shadow-[0_4px_12px_rgba(0,0,0,0.3)] backdrop-blur-[8px] transition-all duration-300 hover:scale-110 hover:border-brand hover:bg-brand group-hover:scale-105"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="15 3 21 3 21 9" />
+              <polyline points="9 21 3 21 3 15" />
+              <line x1="21" y1="3" x2="14" y2="10" />
+              <line x1="3" y1="21" x2="10" y2="14" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col px-[24px] py-[20px] text-left">
@@ -41,6 +90,7 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <div
           className={`mt-[12px] flex h-[66px] shrink-0 flex-wrap content-start items-center gap-[8px] overflow-y-auto ${THIN_SCROLLBAR}`}
+          onClick={(e) => e.stopPropagation()}
         >
           {project.techs.map((tech) => (
             <span
@@ -63,6 +113,7 @@ export function ProjectCard({ project }: { project: Project }) {
             href={project.repo}
             target="_blank"
             rel="noreferrer"
+            onClick={(e) => e.stopPropagation()}
             className="group/code inline-flex cursor-pointer items-center gap-[8px] text-[15px] font-medium text-text transition-colors duration-300 hover:text-brand"
           >
             <span className="flex h-[20px] w-[20px] items-center justify-center transition-transform duration-300 group-hover/code:scale-105">
@@ -90,6 +141,7 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.demo}
               target="_blank"
               rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
               className="inline-flex cursor-pointer items-center gap-[8px] text-[15px] font-medium text-text transition-colors duration-300 hover:text-brand"
             >
               <i className="bi bi-box-arrow-up-right text-[16px]" />
