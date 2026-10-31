@@ -1,15 +1,17 @@
 import { useMemo, useState } from "react";
-import { projects } from "../data/projects";
+import { projects, type Project } from "../data/projects";
 import { useLanguage } from "../i18n/useLanguage";
 import { Container } from "./Container";
 import { ProjectCard } from "./ProjectCard";
 import { ProjectFilter, type FilterValue } from "./ProjectFilter";
+import { ProjectModal } from "./ProjectModal";
 import { Reveal } from "./Reveal";
 import { SectionHeading } from "./SectionHeading";
 
 export function Projects() {
   const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState<FilterValue>("all");
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   const counts = useMemo<Record<FilterValue, number>>(() => {
     const res: Record<FilterValue, number> = {
@@ -48,7 +50,7 @@ export function Projects() {
           <div className="flex flex-wrap items-center justify-center gap-[40px] max-[855px]:flex-col">
             {filteredProjects.map((project, index) => (
               <Reveal key={`${activeFilter}-${project.id}`} delay={index * 100}>
-                <ProjectCard project={project} />
+                <ProjectCard project={project} onOpenModal={setSelectedProject} />
               </Reveal>
             ))}
           </div>
@@ -64,8 +66,12 @@ export function Projects() {
             </button>
           </div>
         )}
+
+        <ProjectModal
+          project={selectedProject}
+          onClose={() => setSelectedProject(null)}
+        />
       </Container>
     </section>
   );
 }
-

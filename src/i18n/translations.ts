@@ -65,6 +65,11 @@ const pt = {
     titulo: "Meus projetos",
     code: "Code",
     deploy: "Deploy",
+    verDetalhes: "Ver detalhes do projeto",
+    fecharModal: "Fechar",
+    sobreProjeto: "Sobre o projeto",
+    tecnologias: "Tecnologias utilizadas",
+    emDesenvolvimento: "Em desenvolvimento",
     filtros: {
       todos: "Todos",
       web: "Web",
@@ -176,6 +181,11 @@ const en: Translation = {
     titulo: "My projects",
     code: "Code",
     deploy: "Deploy",
+    verDetalhes: "View project details",
+    fecharModal: "Close",
+    sobreProjeto: "About the project",
+    tecnologias: "Technologies used",
+    emDesenvolvimento: "In development",
     filtros: {
       todos: "All",
       web: "Web",
