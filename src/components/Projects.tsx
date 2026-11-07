@@ -69,6 +69,8 @@ export function Projects() {
 
         <ProjectModal
           project={selectedProject}
+          projects={filteredProjects}
+          onNavigate={setSelectedProject}
           onClose={() => setSelectedProject(null)}
         />
       </Container>

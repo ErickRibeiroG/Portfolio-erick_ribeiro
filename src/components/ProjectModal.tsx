@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import type { Project } from "../data/projects";
 import { devicon } from "../data/tech";
@@ -7,189 +7,426 @@ import { useLanguage } from "../i18n/useLanguage";
 const THIN_SCROLLBAR =
   "[scrollbar-width:thin] [scrollbar-color:rgba(180,180,180,0.28)_transparent]";
 
+/** Duração da animação de saída (precisa bater com as classes duration-*). */
+const EXIT_MS = 220;
+
+const FOCUSABLE =
+  'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 interface ProjectModalProps {
   project: Project | null;
+  /** Lista visível (já filtrada) — usada para navegar entre projetos. */
+  projects?: Project[];
+  onNavigate?: (project: Project) => void;
   onClose: () => void;
 }
 
-export function ProjectModal({ project, onClose }: ProjectModalProps) {
+export function ProjectModal({
+  project,
+  projects = [],
+  onNavigate,
+  onClose,
+}: ProjectModalProps) {
   const { t } = useLanguage();
+  const [visible, setVisible] = useState(false);
+  const [zoomed, setZoomed] = useState(false);
 
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<number | undefined>(undefined);
+
+  const index = project ? projects.findIndex((p) => p.id === project.id) : -1;
+  const canNavigate = !!onNavigate && projects.length > 1 && index !== -1;
+
+  const requestClose = useCallback(() => {
+    setVisible(false);
+    setZoomed(false);
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(onClose, EXIT_MS);
+  }, [onClose]);
+
+  const go = useCallback(
+    (dir: 1 | -1) => {
+      if (!canNavigate) return;
+      const next = projects[(index + dir + projects.length) % projects.length];
+      if (!next) return;
+      setZoomed(false);
+      onNavigate?.(next);
+    },
+    [canNavigate, index, projects, onNavigate]
+  );
+
+  // Abertura: anima entrada, trava scroll do body e guarda o foco anterior
+  const isOpen = !!project;
   useEffect(() => {
-    if (!project) return;
+    if (!isOpen) return;
 
-    const originalOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const { overflow, paddingRight } = document.body.style;
+    const scrollbar = window.innerWidth - document.documentElement.clientWidth;
+
     document.body.style.overflow = "hidden";
+    if (scrollbar > 0) document.body.style.paddingRight = `${scrollbar}px`;
+
+    const raf = requestAnimationFrame(() => {
+      setVisible(true);
+      closeBtnRef.current?.focus({ preventScroll: true });
+    });
+
+    return () => {
+      cancelAnimationFrame(raf);
+      window.clearTimeout(closeTimer.current);
+      document.body.style.overflow = overflow;
+      document.body.style.paddingRight = paddingRight;
+      previouslyFocused?.focus?.({ preventScroll: true });
+    };
+  }, [isOpen]);
+
+  // Ao trocar de projeto, volta o conteúdo para o topo
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: 0 });
+  }, [project?.id]);
+
+  // Teclado: Esc fecha (imagem ampliada primeiro), setas navegam, Tab fica preso no modal
+  useEffect(() => {
+    if (!isOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        onClose();
+        event.preventDefault();
+        if (zoomed) setZoomed(false);
+        else requestClose();
+        return;
+      }
+      if (event.key === "ArrowRight") return go(1);
+      if (event.key === "ArrowLeft") return go(-1);
+
+      if (event.key === "Tab" && dialogRef.current) {
+        const items = Array.from(
+          dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE)
+        ).filter((el) => el.offsetParent !== null);
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (!first || !last) return;
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [project, onClose]);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, zoomed, go, requestClose]);
 
   if (!project) return null;
 
   return createPortal(
     <div
+      ref={dialogRef}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-project-title"
       onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onClose();
-        }
+        if (e.target === e.currentTarget) requestClose();
       }}
-      className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/80 p-[16px] backdrop-blur-md transition-opacity duration-300 sm:p-[24px]"
+      className={`fixed inset-0 z-[99999] flex items-end justify-center bg-black/75 backdrop-blur-md transition-opacity duration-200 ease-out sm:items-center sm:p-[24px] ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
     >
+      {/* Setas laterais (desktop) */}
+      {canNavigate && (
+        <>
+          <NavArrow dir="prev" label={t.proj.anterior} onClick={() => go(-1)} />
+          <NavArrow dir="next" label={t.proj.proximo} onClick={() => go(1)} />
+        </>
+      )}
+
       <div
-        className="relative flex max-h-[86vh] w-full max-w-[760px] flex-col overflow-hidden rounded-[24px] border border-border bg-surface-1 shadow-[0_30px_70px_rgba(0,0,0,0.6),inset_0_1px_0_var(--shadow-highlight)] backdrop-blur-[24px] transition-all"
+        className={`relative flex max-h-[92dvh] w-full max-w-[1040px] flex-col overflow-hidden rounded-t-[24px] border border-border bg-bg shadow-[0_30px_80px_rgba(0,0,0,0.6),inset_0_1px_0_var(--shadow-highlight)] transition-[opacity,translate,scale] duration-200 ease-out sm:max-h-[88vh] sm:rounded-[24px] ${
+          visible
+            ? "translate-y-0 opacity-100 sm:scale-100"
+            : "translate-y-[40px] opacity-0 sm:translate-y-[12px] sm:scale-[0.97]"
+        }`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Banner do projeto no topo */}
+        {/* Brilho sutil de fundo, mesma linguagem visual dos cards */}
         <div
-          className="relative h-[190px] w-full shrink-0 bg-cover bg-top sm:h-[240px]"
-          style={{ backgroundImage: `url("${project.image}")` }}
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-linear-to-b from-surface-1 to-surface-2"
+        />
+
+        {/* "Alça" do bottom-sheet no mobile */}
+        <div
+          aria-hidden="true"
+          className="absolute left-1/2 top-[8px] z-20 h-[4px] w-[40px] -translate-x-1/2 rounded-full bg-white/50 sm:hidden"
+        />
+
+        <button
+          ref={closeBtnRef}
+          type="button"
+          onClick={requestClose}
+          aria-label={t.proj.fecharModal}
+          title={`${t.proj.fecharModal} (Esc)`}
+          className="absolute right-[14px] top-[14px] z-30 flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-full border border-white/30 bg-black/60 text-white shadow-[0_4px_12px_rgba(0,0,0,0.3)] backdrop-blur-[8px] transition-all duration-300 hover:rotate-90 hover:border-red-500/60 hover:text-red-400 focus-visible:outline-2 focus-visible:outline-brand"
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
 
-          {/* Badge Em desenvolvimento */}
-          {project.desenvolvimento && (
-            <span className="absolute left-[16px] top-[16px] z-10 rounded-[6px] border border-white/30 bg-black/65 px-[10px] py-[6px] text-[12px] font-semibold text-white shadow-[0_4px_12px_rgba(0,0,0,0.3)] backdrop-blur-[6px]">
-              {t.proj.emDesenvolvimento}
-            </span>
+        {/* Área rolável: imagem + conteúdo */}
+        <div
+          ref={scrollRef}
+          className={`relative flex-1 overflow-y-auto overscroll-contain ${THIN_SCROLLBAR}`}
+        >
+          <div key={project.id} className="animate-modal-content">
+            {/* Preview do projeto: passa o mouse para "rolar" o print, clique para ampliar */}
+            <button
+              type="button"
+              onClick={() => setZoomed(true)}
+              aria-label={`${t.proj.ampliarImagem} - ${project.title}`}
+              className="group/img relative block aspect-[16/9] max-h-[440px] w-full cursor-zoom-in overflow-hidden bg-cover bg-top transition-[background-position] duration-[5000ms] ease-in-out hover:bg-bottom sm:aspect-[21/9]"
+              style={{ backgroundImage: `url("${project.image}")` }}
+            >
+              <span className="absolute inset-0 bg-linear-to-t from-bg via-transparent to-black/30" />
+
+              <span className="absolute bottom-[16px] right-[16px] flex items-center gap-[6px] rounded-full border border-white/25 bg-black/60 px-[12px] py-[6px] text-[12px] font-medium text-white opacity-0 backdrop-blur-[6px] transition-opacity duration-300 group-hover/img:opacity-100 group-focus-visible/img:opacity-100">
+                <i className="bi bi-arrows-fullscreen text-[12px]" aria-hidden="true" />
+                {t.proj.ampliarImagem}
+              </span>
+            </button>
+
+            <div className="relative px-[20px] pb-[28px] sm:px-[36px]">
+              {/* Cabeçalho */}
+              <header className="-mt-[8px] mb-[28px]">
+                <div className="mb-[10px] flex flex-wrap items-center gap-[6px]">
+                  {project.desenvolvimento && (
+                    <StatusBadge emDev label={t.proj.emDesenvolvimento} />
+                  )}
+                  {project.type.map((tKey) => (
+                    <span
+                      key={tKey}
+                      className="rounded-full border border-brand/30 bg-brand/10 px-[10px] py-[3px] text-[12px] font-medium text-brand"
+                    >
+                      {t.proj.filtros[tKey]}
+                    </span>
+                  ))}
+                </div>
+                <h2
+                  id="modal-project-title"
+                  className="text-[28px] font-bold leading-tight tracking-tight sm:text-[36px]"
+                >
+                  {project.title}
+                </h2>
+              </header>
+
+              <div className="grid gap-[32px] md:grid-cols-[minmax(0,1fr)_300px]">
+                {/* Descrição */}
+                <section>
+                  <SectionTitle>{t.proj.sobreProjeto}</SectionTitle>
+                  <p className="text-[15px] font-light leading-[1.8] text-text/90 sm:text-[16px]">
+                    {project.description}
+                  </p>
+                </section>
+
+                {/* Lateral: tecnologias + links */}
+                <aside className="flex flex-col gap-[24px] md:border-l md:border-border md:pl-[28px]">
+                  <section>
+                    <SectionTitle>{t.proj.tecnologias}</SectionTitle>
+                    <ul className="flex flex-wrap gap-[8px]">
+                      {project.techs.map((tech) => (
+                        <li
+                          key={tech.name}
+                          className="flex h-[32px] items-center gap-[7px] rounded-[8px] border border-brand/25 bg-brand/10 px-[11px] text-[13px] font-medium text-text"
+                        >
+                          <img src={devicon(tech.icon)} alt="" aria-hidden="true" className="h-[18px] w-[18px]" />
+                          {tech.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <div className="flex flex-col gap-[10px] max-md:hidden">
+                    <ProjectLinks project={project} codeLabel={t.proj.code} deployLabel={t.proj.deploy} />
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Rodapé: links (mobile) + navegação */}
+        <footer className="relative flex items-center gap-[10px] border-t border-border bg-surface-2/80 px-[16px] py-[12px] backdrop-blur-md sm:px-[24px]">
+          <div className="flex flex-1 flex-wrap gap-[8px] md:hidden">
+            <ProjectLinks project={project} codeLabel={t.proj.code} deployLabel={t.proj.deploy} compact />
+          </div>
+
+          {canNavigate && (
+            <>
+              <span className="hidden flex-1 text-[12px] text-muted md:block">
+                {t.proj.atalhos} · Esc
+              </span>
+              <div className="flex items-center gap-[6px]">
+                <FooterNavButton dir="prev" label={t.proj.anterior} onClick={() => go(-1)} />
+                <span className="min-w-[44px] text-center text-[13px] font-medium tabular-nums text-muted" aria-live="polite">
+                  {index + 1} / {projects.length}
+                </span>
+                <FooterNavButton dir="next" label={t.proj.proximo} onClick={() => go(1)} />
+              </div>
+            </>
           )}
+        </footer>
+      </div>
 
-          {/* Botão Fechar no canto superior direito - Hover apenas no X vermelho */}
+      {/* Imagem ampliada */}
+      {zoomed && (
+        <div
+          role="presentation"
+          onClick={(e) => {
+            e.stopPropagation();
+            setZoomed(false);
+          }}
+          className={`animate-modal-content fixed inset-0 z-40 flex cursor-zoom-out justify-center overflow-y-auto bg-black/90 p-[16px] backdrop-blur-sm sm:p-[40px] ${THIN_SCROLLBAR}`}
+        >
           <button
             type="button"
-            onClick={onClose}
-            aria-label={t.proj.fecharModal}
-            className="absolute right-[16px] top-[16px] z-10 flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-white/30 bg-black/60 text-white shadow-[0_4px_12px_rgba(0,0,0,0.3)] backdrop-blur-[8px] transition-all duration-300 hover:scale-110 hover:border-red-500/50 hover:text-red-500"
+            autoFocus
+            onClick={(e) => {
+              e.stopPropagation();
+              setZoomed(false);
+            }}
+            aria-label={t.proj.fecharImagem}
+            className="fixed right-[16px] top-[16px] z-10 flex h-[40px] w-[40px] cursor-pointer items-center justify-center rounded-full border border-white/30 bg-black/60 text-white backdrop-blur-[8px] transition-colors hover:text-red-400"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
+            <i className="bi bi-x-lg text-[16px]" aria-hidden="true" />
           </button>
-
-          {/* Título e tags sobrepostos na base do banner */}
-          <div className="absolute bottom-[16px] left-[20px] right-[20px] z-10 sm:bottom-[20px] sm:left-[28px] sm:right-[28px]">
-            <div className="mb-[6px] flex flex-wrap gap-[6px]">
-              {project.type.map((tKey) => (
-                <span
-                  key={tKey}
-                  className="rounded-full border border-white/30 bg-black/55 px-[10px] py-[2px] text-[11px] font-medium text-white backdrop-blur-[6px]"
-                >
-                  {t.proj.filtros[tKey]}
-                </span>
-              ))}
-            </div>
-            <h2
-              id="modal-project-title"
-              className="text-2xl font-bold tracking-tight text-white drop-shadow-md sm:text-3xl"
-            >
-              {project.title}
-            </h2>
-          </div>
+          <img
+            src={project.image}
+            alt={project.title}
+            className="my-auto h-auto w-full max-w-[1400px] rounded-[12px] shadow-[0_20px_60px_rgba(0,0,0,0.6)]"
+          />
         </div>
-
-        {/* Corpo com scroll para visualização de todo o conteúdo */}
-        <div className={`flex flex-1 flex-col gap-[24px] overflow-y-auto p-[20px] sm:p-[28px] ${THIN_SCROLLBAR}`}>
-          {/* Seção da descrição completa */}
-          <div>
-            <h3 className="mb-[10px] text-[13px] font-semibold uppercase tracking-wider text-brand">
-              {t.proj.sobreProjeto}
-            </h3>
-            <p className="text-[15px] font-normal leading-[1.7] text-text/90 sm:text-[16px]">
-              {project.description}
-            </p>
-          </div>
-
-          {/* Seção das tecnologias */}
-          <div>
-            <h3 className="mb-[10px] text-[13px] font-semibold uppercase tracking-wider text-brand">
-              {t.proj.tecnologias}
-            </h3>
-            <div className="flex flex-wrap gap-[8px]">
-              {project.techs.map((tech) => (
-                <span
-                  key={tech.name}
-                  className="flex h-[32px] items-center gap-[7px] rounded-[6px] border border-brand/25 bg-brand/10 px-[12px] text-[13px] font-medium text-text transition-colors duration-200"
-                >
-                  <img
-                    src={devicon(tech.icon)}
-                    alt=""
-                    aria-hidden="true"
-                    className="h-[20px] w-[20px]"
-                  />
-                  {tech.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Rodapé do modal com links diretos */}
-        <div className="flex flex-wrap items-center gap-[12px] border-t border-border bg-surface-2/60 px-[20px] py-[16px] backdrop-blur-md sm:px-[28px]">
-          <a
-            href={project.repo}
-            target="_blank"
-            rel="noreferrer"
-            className="group/code inline-flex cursor-pointer items-center gap-[8px] rounded-full border border-border bg-surface-1 px-[18px] py-[9px] text-[14px] font-medium text-text shadow-sm transition-all duration-300 hover:border-brand/40 hover:bg-brand/10 hover:text-brand"
-          >
-            <span className="flex h-[18px] w-[18px] items-center justify-center transition-transform duration-300 group-hover/code:scale-110">
-              <svg
-                className="lucide lucide-github"
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                <path d="M9 18c-4.51 2-5-2-7-2" />
-              </svg>
-            </span>
-            {t.proj.code}
-          </a>
-
-          {project.demo && (
-            <a
-              href={project.demo}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex cursor-pointer items-center gap-[8px] rounded-full bg-brand px-[20px] py-[9px] text-[14px] font-semibold text-white shadow-[0_4px_14px_rgba(60,166,166,0.35)] transition-all duration-300 hover:scale-105 hover:bg-brand-alt"
-            >
-              <i className="bi bi-box-arrow-up-right text-[15px]" />
-              {t.proj.deploy}
-            </a>
-          )}
-        </div>
-      </div>
+      )}
     </div>,
     document.body
+  );
+}
+
+function SectionTitle({ children }: { children: ReactNode }) {
+  return (
+    <h3 className="mb-[12px] flex items-center gap-[8px] text-[12px] font-semibold uppercase tracking-[0.12em] text-brand">
+      <span className="h-[2px] w-[16px] rounded-full bg-brand" aria-hidden="true" />
+      {children}
+    </h3>
+  );
+}
+
+function StatusBadge({ emDev, label }: { emDev: boolean; label: string }) {
+  return (
+    <span
+      className={`inline-flex items-center gap-[6px] rounded-full border px-[10px] py-[3px] text-[12px] font-semibold ${
+        emDev
+          ? "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400"
+          : "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+      }`}
+    >
+      <span
+        aria-hidden="true"
+        className={`h-[6px] w-[6px] rounded-full ${emDev ? "animate-pulse bg-amber-500" : "bg-emerald-500"}`}
+      />
+      {label}
+    </span>
+  );
+}
+
+function ProjectLinks({
+  project,
+  codeLabel,
+  deployLabel,
+  compact = false,
+}: {
+  project: Project;
+  codeLabel: string;
+  deployLabel: string;
+  compact?: boolean;
+}) {
+  const base =
+    "inline-flex cursor-pointer items-center justify-center gap-[8px] rounded-full text-[14px] transition-all duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand";
+  const size = compact ? "px-[16px] py-[8px]" : "w-full px-[18px] py-[10px]";
+
+  return (
+    <>
+      {project.demo && (
+        <a
+          href={project.demo}
+          target="_blank"
+          rel="noreferrer"
+          className={`${base} ${size} bg-brand font-semibold text-white shadow-[0_4px_14px_rgba(60,166,166,0.35)] hover:-translate-y-[1px] hover:bg-brand-alt hover:shadow-[0_6px_20px_rgba(60,166,166,0.5)]`}
+        >
+          <i className="bi bi-box-arrow-up-right text-[15px]" aria-hidden="true" />
+          {deployLabel}
+        </a>
+      )}
+      <a
+        href={project.repo}
+        target="_blank"
+        rel="noreferrer"
+        className={`${base} ${size} border font-medium ${
+          project.demo
+            ? "border-border bg-surface-1 text-text hover:border-brand/40 hover:bg-brand/10 hover:text-brand"
+            : "border-brand bg-brand font-semibold text-white hover:bg-brand-alt"
+        }`}
+      >
+        <i className="bi bi-github text-[16px]" aria-hidden="true" />
+        {codeLabel}
+      </a>
+    </>
+  );
+}
+
+function Chevron({ dir }: { dir: "prev" | "next" }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points={dir === "prev" ? "15 18 9 12 15 6" : "9 18 15 12 9 6"} />
+    </svg>
+  );
+}
+
+function NavArrow({ dir, label, onClick }: { dir: "prev" | "next"; label: string; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      aria-label={label}
+      title={label}
+      className={`fixed top-1/2 z-10 hidden h-[48px] w-[48px] -translate-y-1/2 cursor-pointer items-center justify-center rounded-full border border-white/25 bg-black/50 text-white backdrop-blur-[8px] transition-all duration-300 hover:scale-110 hover:border-brand hover:bg-brand min-[1200px]:flex ${
+        dir === "prev" ? "left-[24px]" : "right-[24px]"
+      }`}
+    >
+      <Chevron dir={dir} />
+    </button>
+  );
+}
+
+function FooterNavButton({ dir, label, onClick }: { dir: "prev" | "next"; label: string; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={label}
+      title={label}
+      className="flex h-[36px] w-[36px] cursor-pointer items-center justify-center rounded-full border border-border bg-surface-1 text-text transition-all duration-300 hover:border-brand/50 hover:bg-brand/10 hover:text-brand focus-visible:outline-2 focus-visible:outline-brand"
+    >
+      <Chevron dir={dir} />
+    </button>
   );
 }
