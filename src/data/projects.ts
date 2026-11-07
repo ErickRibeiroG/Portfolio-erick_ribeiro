@@ -45,7 +45,7 @@ export const projects: Project[] = [
       "web",
       "backend"
     ],
-    image: "/assets/images/projetos/livraria-editado.jpeg",
+    image: "/assets/images/projetos/books.png",
     repo: "https://github.com/Erick22Ribeiro/My-Library",
     desenvolvimento: false,
     techs: [
