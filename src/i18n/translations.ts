@@ -70,6 +70,11 @@ const pt = {
     sobreProjeto: "Sobre o projeto",
     tecnologias: "Tecnologias utilizadas",
     emDesenvolvimento: "Em desenvolvimento",
+    anterior: "Projeto anterior",
+    proximo: "Próximo projeto",
+    ampliarImagem: "Ampliar imagem",
+    fecharImagem: "Fechar imagem",
+    atalhos: "Use ← → para navegar",
     filtros: {
       todos: "Todos",
       web: "Web",
@@ -186,6 +191,11 @@ const en: Translation = {
     sobreProjeto: "About the project",
     tecnologias: "Technologies used",
     emDesenvolvimento: "In development",
+    anterior: "Previous project",
+    proximo: "Next project",
+    ampliarImagem: "Enlarge image",
+    fecharImagem: "Close image",
+    atalhos: "Use ← → to navigate",
     filtros: {
       todos: "All",
       web: "Web",

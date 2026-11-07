@@ -12,6 +12,14 @@
   --animate-blink: blink 1.2s infinite;
   --animate-fill-bar: fill-bar 2s ease-in-out;
   --animate-float: float 5s ease-in-out infinite;
+  --animate-modal-content: modal-content 0.35s ease-out;
+
+  @keyframes modal-content {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
 
   @keyframes blink {
     0%,
